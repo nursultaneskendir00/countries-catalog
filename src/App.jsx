@@ -9,7 +9,7 @@ function App() {
     async function loadCountries() {
       try {
         const response = await fetch(
-          "https://countries.dev/countries?fields=name,capital"
+          "https://countries.dev/countries?fields=name,capital,region,alpha2Code"
         )
         const data = await response.json()
 
@@ -23,10 +23,15 @@ function App() {
 
     loadCountries()
   }, [])
-  const filteredCountries = countries.filter((country)=>
-  country.name.toLowerCase().includes(search.toLowerCase()))
+  const normalizedSearch = search.toLowerCase()
+
+  const filteredCountries = countries.filter(
+    (country) =>
+      country.name.toLowerCase().includes(normalizedSearch) ||
+    (country.capital ?? "").toLowerCase().includes(normalizedSearch)
+  )
   return (
-    <main>
+    <main className="app">
       <h1>Каталог стран</h1>
       <input 
       type="search"
@@ -41,7 +46,17 @@ function App() {
       <ul>
         {filteredCountries.map((country)=>(
           <li key={country.name}>
-            {country.name} - столица: {country.capital}
+                        <img
+              src={`https://flagcdn.com/w80/${country.alpha2Code.toLowerCase()}.png`}
+              alt={`Флаг ${country.name}`}
+              width="48"
+            />
+
+            <div>
+              <strong>{country.name}</strong>
+              <p>Столица: {country.capital || "Нет данных"}</p>
+              <p>Регион: {country.region}</p>
+              </div>
           </li>
         ))}
       </ul>
