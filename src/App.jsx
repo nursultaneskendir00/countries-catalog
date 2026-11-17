@@ -5,6 +5,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [error,setError] = useState("")
   const [search,setSearch] = useState("")
+  const [region,setRegion] = useState("all")
     useEffect(() => {
     async function loadCountries() {
       try {
@@ -25,11 +26,19 @@ function App() {
   }, [])
   const normalizedSearch = search.toLowerCase()
 
-  const filteredCountries = countries.filter(
-    (country) =>
-      country.name.toLowerCase().includes(normalizedSearch) ||
+  const filteredCountries = countries.filter((country)=>{
+    const matchesSearch =
+    country.name.toLowerCase().includes(normalizedSearch) ||
     (country.capital ?? "").toLowerCase().includes(normalizedSearch)
-  )
+
+    const matchesRegion =
+    region === "all" || country.region === region
+    return matchesSearch && matchesRegion
+  })
+   function resetFilters() {
+    setSearch("")
+    setRegion("all")
+   } 
   return (
     <main className="app">
       <h1>Каталог стран</h1>
@@ -38,11 +47,27 @@ function App() {
       placeholder="Найти страну"
       value={search}
       onChange={(event) => setSearch(event.target.value)}/>
+      <select
+      value={region}
+      onChange={(event)=> setRegion(event.target.value)}>
+      <option value="all">Все регионы</option>
+      <option value="Africa">Африка</option>
+      <option value="Americas">Америка</option>
+      <option value="Asia">Азия</option>
+      <option value="Europe">Европа</option>
+      <option value="Oceania">Океания</option>
+      </select>
+      <button type="button" onClick={resetFilters}>
+        Сбросить фильтры
+      </button>
       <p>{
         isLoading
         ?"Загружаем страны..."
       :`Найдено стран: ${filteredCountries.length}`}</p>
       {error && <p>{error}</p>}
+      {!isLoading && !error && filteredCountries.length === 0 &&(
+        <p>Страны не найдены.</p>
+      )}
       <ul>
         {filteredCountries.map((country)=>(
           <li key={country.name}>
