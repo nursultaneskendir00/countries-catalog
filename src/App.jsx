@@ -7,6 +7,7 @@ function App() {
   const [error,setError] = useState("")
   const [search,setSearch] = useState("")
   const [region,setRegion] = useState("all")
+  const [sortOrder,setSortOrder] = useState("none")
     useEffect(() => {
     async function loadCountries() {
       try {
@@ -36,9 +37,19 @@ function App() {
     region === "all" || country.region === region
     return matchesSearch && matchesRegion
   })
+  const sortedCountries = [...filteredCountries].sort((first,second) => {
+    if(sortOrder === "asc"){
+      return first.name.localeCompare(second.name)
+    }
+    if (sortOrder === "desc"){
+      return second.name.localeCompare(first.name)
+    }
+    return 0
+  })
    function resetFilters() {
     setSearch("")
     setRegion("all")
+    setSortOrder("none")
    } 
   return (
     <main className="app">
@@ -58,6 +69,13 @@ function App() {
       <option value="Europe">Европа</option>
       <option value="Oceania">Океания</option>
       </select>
+      <select
+      value={sortOrder}
+      onChange={(event)=> setSortOrder(event.target.value)}>
+        <option value="none">Без сортировки</option>
+        <option value="asc">По алфавиту: А–Я</option>
+        <option value="desc">По алфавиту: Я–А</option>
+      </select>
       <button type="button" onClick={resetFilters}>
         Сбросить фильтры
       </button>
@@ -70,7 +88,7 @@ function App() {
         <p>Страны не найдены.</p>
       )}
       <ul>
-        {filteredCountries.map((country)=>(
+        {sortedCountries.map((country)=>(
           <CountryCard key={country.name} country={country} />
         ))}
       </ul>
