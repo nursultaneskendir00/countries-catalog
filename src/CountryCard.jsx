@@ -1,4 +1,4 @@
-function CountryCard ({ country }) {
+function CountryCard ({ country, isFavorite, onToggleFavorite }) {
     return (
         <li>
   <img
@@ -11,6 +11,13 @@ function CountryCard ({ country }) {
     <strong>{country.name}</strong>
     <p>Столица: {country.capital || "Нет данных"}</p>
     <p>Регион: {country.region}</p>
+    <button
+    type="button"
+    className={isFavorite ? "is-favorite" : ""}
+    onClick={() => onToggleFavorite (country.alpha2Code)}
+    >
+      {isFavorite ? "★ В избранном" : "☆ В избранное"}
+    </button>
   </div>
 </li>
     )

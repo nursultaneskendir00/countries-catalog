@@ -84,3 +84,21 @@
   margin: 4px 0;
   color: #64748b;
 }
+.app li button {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  color: #2563eb;
+  background: white;
+  cursor: pointer;
+}
+.app li button:hover {
+  color: white;
+  background: #2563eb;
+
+}
+.app li button.is-favorite {
+  color: white;
+  background: #2563eb;
+}

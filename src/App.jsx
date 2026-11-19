@@ -8,6 +8,7 @@ function App() {
   const [search,setSearch] = useState("")
   const [region,setRegion] = useState("all")
   const [sortOrder,setSortOrder] = useState("none")
+  const [favoriteCodes,setFavoriteCodes] = useState([])
     useEffect(() => {
     async function loadCountries() {
       try {
@@ -46,6 +47,16 @@ function App() {
     }
     return 0
   })
+  function toggleFavorite(code) {
+    setFavoriteCodes((currentCodes) => {
+      if (currentCodes.includes(code)) {
+        return currentCodes.filter(
+          (currentCode) => currentCode !==code
+        )
+      }
+      return [...currentCodes,code]
+    })
+  }
    function resetFilters() {
     setSearch("")
     setRegion("all")
@@ -89,7 +100,11 @@ function App() {
       )}
       <ul>
         {sortedCountries.map((country)=>(
-          <CountryCard key={country.name} country={country} />
+          <CountryCard 
+          key={country.name} 
+          country={country}
+          isFavorite={favoriteCodes.includes(country.alpha2Code)}
+          onToggleFavorite={toggleFavorite} />
         ))}
       </ul>
       </main>
