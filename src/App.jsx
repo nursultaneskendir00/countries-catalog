@@ -9,6 +9,7 @@ function App() {
   const [region,setRegion] = useState("all")
   const [sortOrder,setSortOrder] = useState("none")
   const [favoriteCodes,setFavoriteCodes] = useState([])
+  const [onlyFavorites,setOnlyFavorites] = useState(false)
     useEffect(() => {
     async function loadCountries() {
       try {
@@ -36,7 +37,9 @@ function App() {
 
     const matchesRegion =
     region === "all" || country.region === region
-    return matchesSearch && matchesRegion
+    const matchesFavorites =
+    !onlyFavorites || favoriteCodes.includes(country.alpha2Code)
+    return matchesSearch && matchesRegion && matchesFavorites
   })
   const sortedCountries = [...filteredCountries].sort((first,second) => {
     if(sortOrder === "asc"){
@@ -61,6 +64,7 @@ function App() {
     setSearch("")
     setRegion("all")
     setSortOrder("none")
+    setOnlyFavorites(false)
    } 
   return (
     <main className="app">
@@ -87,6 +91,12 @@ function App() {
         <option value="asc">По алфавиту: А–Я</option>
         <option value="desc">По алфавиту: Я–А</option>
       </select>
+      <button 
+      type="button"
+      onClick={() => setOnlyFavorites((currentValue) => !currentValue)}
+      >
+        {onlyFavorites ? "Показать все страны" : "Только избранные"}
+        </button>
       <button type="button" onClick={resetFilters}>
         Сбросить фильтры
       </button>
