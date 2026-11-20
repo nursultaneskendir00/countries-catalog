@@ -1,16 +1,30 @@
-# React + Vite
+# Каталог стран
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+[Открыть приложение](https://nursultaneskendir00.github.io/countries-catalog/)
 
-Currently, two official plugins are available:
+Каталог стран, созданный на React. Данные загружаются из внешнего API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Возможности
 
-## React Compiler
+- Поиск по названию страны и столице
+- Фильтр по регионам
+- Сортировка по алфавиту
+- Добавление стран в избранное
+- Сохранение избранного в localStorage
+- Обработка ошибок загрузки
+- Автоматическая публикация на GitHub Pages
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Технологии
 
-## Expanding the Oxlint configuration
+- React
+- Vite
+- JavaScript
+- CSS
+- Git и GitHub Actions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Запуск проекта
+
+```bash
+npm install
+npm run dev
+```
