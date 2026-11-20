@@ -119,7 +119,14 @@ const [onlyFavorites, setOnlyFavorites] = useState(false)
         isLoading
         ?"Загружаем страны..."
       :`Найдено стран: ${filteredCountries.length}`}</p>
-      {error && <p>{error}</p>}
+      {error && (
+        <>
+        <p role="alert">{error}</p>
+        <button type="button" onClick={()=> window.location.reload()}>
+          Повторить загрузку
+        </button>
+        </>
+      )}
       {!isLoading && !error && filteredCountries.length === 0 &&(
         <p>Страны не найдены.</p>
       )}
