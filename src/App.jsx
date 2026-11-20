@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import CountryCard from "./CountryCard"
+const FAVORITES_STORAGE_KEY = "favorite-countries"
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -8,8 +9,13 @@ function App() {
   const [search,setSearch] = useState("")
   const [region,setRegion] = useState("all")
   const [sortOrder,setSortOrder] = useState("none")
-  const [favoriteCodes,setFavoriteCodes] = useState([])
-  const [onlyFavorites,setOnlyFavorites] = useState(false)
+  const [favoriteCodes, setFavoriteCodes] = useState(() => {
+  const savedFavoriteCodes = localStorage.getItem(FAVORITES_STORAGE_KEY)
+
+  return savedFavoriteCodes ? JSON.parse(savedFavoriteCodes) : []
+})
+
+const [onlyFavorites, setOnlyFavorites] = useState(false)
     useEffect(() => {
     async function loadCountries() {
       try {
@@ -28,6 +34,12 @@ function App() {
 
     loadCountries()
   }, [])
+  useEffect(()=> {
+    localStorage.setItem(
+      FAVORITES_STORAGE_KEY,
+      JSON.stringify(favoriteCodes)
+    )
+    },[favoriteCodes])
   const normalizedSearch = search.toLowerCase()
 
   const filteredCountries = countries.filter((country)=>{
