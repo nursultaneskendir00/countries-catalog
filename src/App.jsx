@@ -22,6 +22,9 @@ const [onlyFavorites, setOnlyFavorites] = useState(false)
         const response = await fetch(
           "https://countries.dev/countries?fields=name,capital,region,alpha2Code"
         )
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить страны")
+        }
         const data = await response.json()
 
         setCountries(data)
